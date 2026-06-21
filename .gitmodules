@@ -1,0 +1,3 @@
+[submodule "zkPetoron-Core"]
+	path = zkPetoron-Core
+	url = https://github.com/01alekseev/zkPetoron-Core.git
