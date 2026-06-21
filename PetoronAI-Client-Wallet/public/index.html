@@ -1,0 +1,137 @@
+<!doctype html>
+<!--
+Copyright (c) Ivan Alekseev
+
+Licensed under the PetoronAI Community License (PCL)
+or a valid PetoronAI Commercial License.
+-->
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>PetoronAI Client Wallet</title>
+<style>
+*{box-sizing:border-box}
+body{background:#0f141b;color:#eee;font-family:Arial;margin:0;padding:24px;overflow-x:hidden}
+.page{max-width:1200px;margin:0 auto}
+h1{color:#ff9f2a}
+h2{color:#ffb45c}
+.box{border:1px solid #333;background:#151b24;padding:18px;border-radius:14px;margin-bottom:18px}
+label{display:block;margin-top:12px;font-weight:bold}
+.note{font-size:14px;color:#aab2c0;margin:6px 0 10px}
+input{width:100%;background:#202938;color:#fff;border:1px solid #4b5563;border-radius:8px;padding:12px;margin:4px 0;word-break:break-all}
+button{width:100%;max-width:420px;background:#ff9f2a;color:#111;font-weight:bold;border:0;border-radius:8px;padding:12px;cursor:pointer;margin-top:10px}
+button.dark{background:#2d3748;color:#fff;border:1px solid #4b5563}
+pre{background:#090d13;border:1px solid #303846;padding:14px;border-radius:8px;white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere}
+.warn{color:#ffcc66}
+.ok{color:#7dff9b}
+@media(max-width:900px){body{padding:12px}button{max-width:none}}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>PetoronAI Client Wallet</h1>
+<p class="note">Local client-side deposit tool for PetoronAI commercial license payment.</p>
+
+<div class="box">
+<h2>1. Connect RPC and Wallet</h2>
+
+<label>Ethereum Mainnet RPC URL</label>
+<div class="note">Paste your Infura, Alchemy, or other Ethereum Mainnet RPC URL.</div>
+<input id="rpc" placeholder="https://mainnet.infura.io/v3/...">
+
+<label>Your Private Key</label>
+<div class="note">This is used locally only while the app is open. Do not share it with anyone.</div>
+<input id="privateKey" placeholder="0x...">
+
+<button onclick="saveSession()">Connect Wallet</button>
+</div>
+
+<div class="box">
+<h2>2. Wallet Status</h2>
+<div class="note">Check your wallet balance, Vault address, and current Ethereum block.</div>
+<button onclick="status()">Refresh Status</button>
+<pre id="status"></pre>
+</div>
+
+<div class="box">
+<h2>3. Deposit License Payment</h2>
+
+<label>Commitment</label>
+<div class="note">Paste the commitment provided for your PetoronAI license. It must be 0x + 64 hex characters.</div>
+<input id="commitment" placeholder="0x...">
+
+<label>Deposit Amount in ETH</label>
+<div class="note">Enter the exact ETH amount requested for your license payment.</div>
+<input id="amount" placeholder="0.1">
+
+<p class="warn">Before sending, verify the RPC URL, commitment, amount, and wallet balance.</p>
+
+<button onclick="deposit()">Send Deposit to PetoronAI Vault</button>
+</div>
+
+<div class="box">
+<h2>4. Check Commitment</h2>
+<div class="note">After deposit, paste the same commitment here and verify that it exists in the Vault.</div>
+<input id="checkCommitment" placeholder="0x...">
+<button onclick="checkCommitment()">Check Commitment</button>
+<pre id="commitmentResult"></pre>
+</div>
+
+<div class="box">
+<h2>Result / Log</h2>
+<pre id="log"></pre>
+</div>
+</div>
+
+<script>
+let dirty=false;
+window.onbeforeunload=()=>dirty?"Close PetoronAI Client Wallet? Session data will be lost.":undefined;
+
+async function post(url,data){
+  const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+  const j=await r.json();
+  if(!r.ok)throw new Error(j.error||"Error");
+  return j;
+}
+
+function show(id,x){document.getElementById(id).textContent=JSON.stringify(x,null,2)}
+function log(x){show("log",x)}
+
+async function saveSession(){
+  try{
+    dirty=true;
+    log(await post("/api/session",{
+      rpc:rpc.value.trim(),
+      privateKey:privateKey.value.trim()
+    }));
+  }catch(e){log({error:e.message})}
+}
+
+async function status(){
+  try{
+    const r=await fetch("/api/status");
+    const j=await r.json();
+    show("status",j);
+  }catch(e){show("status",{error:e.message})}
+}
+
+async function deposit(){
+  try{
+    log(await post("/api/deposit",{
+      commitment:commitment.value.trim(),
+      amount:amount.value.trim()
+    }));
+  }catch(e){log({error:e.message})}
+}
+
+async function checkCommitment(){
+  try{
+    show("commitmentResult",await post("/api/commitment",{
+      commitment:checkCommitment.value.trim()
+    }));
+  }catch(e){show("commitmentResult",{error:e.message})}
+}
+</script>
+</body>
+</html>

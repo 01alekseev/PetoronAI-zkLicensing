@@ -1,0 +1,70 @@
+PetoronAI Client Wallet
+
+Requirements
+
+* Internet connection
+* Ethereum Mainnet RPC URL (Infura, Alchemy, etc.)
+* Ethereum wallet private key with enough ETH for:
+
+  * license payment
+  * Ethereum gas fees
+
+Start
+
+1. Open Terminal.
+2. Go to the wallet directory.
+3. Start the local wallet server.
+
+Example:
+
+cd ~/downloads/PetoronAI-zkLicensing/PetoronAI-Client-Wallet
+npm install
+node server.js
+
+(or file start.sh)
+
+4. Open your browser:
+
+http://127.0.0.1:8788
+
+Wallet Setup
+
+1. Paste your Ethereum Mainnet RPC URL.
+2. Paste your private key.
+3. Click Connect Wallet.
+4. Verify:
+
+   * wallet address
+   * wallet balance
+   * current Ethereum block
+
+License Deposit
+
+1. Paste the commitment provided for your PetoronAI license.
+2. Enter the exact ETH amount.
+3. Click Send Deposit to PetoronAI Vault.
+4. Wait for transaction confirmation.
+5. Save the transaction hash.
+
+Verify Deposit
+
+1. Open the Check Commitment section.
+2. Paste the same commitment.
+3. Click Check Commitment.
+4. Verify:
+
+   * commitment exists
+   * payer address
+   * deposited amount
+   * deposit block
+
+Important
+
+* The private key is stored only in RAM while the wallet is running.
+* Closing the wallet removes the current session.
+* Never send your private key to anyone.
+* Always verify the commitment before sending ETH.
+* Always verify the ETH amount before sending.
+
+
+Petoron
