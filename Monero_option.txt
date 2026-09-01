@@ -1,0 +1,23 @@
+Companies seeking greater privacy can purchase PetoronAI commercial licenses using Monero.
+
+The procedure is the same as with ETH, but the license fee is converted to XMR.
+
+If desired, you can contact us via an anonymous remailer, disposable email, your corporate email, or any other email address.
+
+So:
+1. Follow the visual instructions to create a license.
+2. Send a request for a Monero payment address to the email specified in the NOTICE.md file.
+3. Receive the address and complete the transaction (after converting the license fee to Monero at the current exchange rate).
+4. Contact us by email and attach your commitment and the exact date the transaction was sent in Monero.
+5. Receive confirmation of successful license payment.
+
+Then, from the official Petroron address, your commitment will be recorded in smart contract:
+0x6BD1A8237b1620D11acB4520b3B2EeF13d7e6516.
+
+This payment procedure is only an additional option and is not mandatory.
+
+The primary payment method remains ETH.
+
+---
+
+Petoron | Ivan Alekseev
